@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+
+final List<String> imgList = [
+  'https://popkyn.com/onboarding%203.png',
+  'https://popkyn.com/onboarding%202.png',
+  'https://popkyn.com/onboarding%201.png',
+];
 
 void main() {
   runApp(const MyApp());
@@ -39,7 +46,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const VolunteerRoute()),
+          );
+    },
+    child: Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -49,6 +63,41 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
+      ),
+    )
+    );
+  }
+}
+
+class VolunteerRoute extends StatelessWidget {
+  const VolunteerRoute({Key? key}) : super(key: key);
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Builder(
+        builder: (context) {
+          final double height = MediaQuery.of(context).size.height;
+          return CarouselSlider(
+            options: CarouselOptions(
+              height: height,
+              viewportFraction: 0.9,
+              enlargeCenterPage: false,
+              // enableInfiniteScroll: false,
+            ),
+            items: imgList
+                .map((item) => Container(
+              child: Center(
+                  child: Image.network(
+                    item,
+                    fit: BoxFit.cover,
+                    height: height,
+                  )),
+            ))
+                .toList(),
+          );
+        },
       ),
     );
   }
